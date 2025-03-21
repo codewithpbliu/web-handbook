@@ -36,20 +36,45 @@ div 的 classname+Image 的 className='object-contain'
 
 如果只用一个 div, max-w-\*\* 下边框会两边中断, 两个 div 一个设置 header 属性,其他设置宽带和子元素的属性;
 
+#### grid 实现分列
 
-#### grid实现分列
-grid-cols-1  默认一列;
-md:grid-cols-3   middle size: 变成3列;
-子元素1:
-md:col-span-2   md: 占两列;
+grid-cols-1 默认一列;
+md:grid-cols-3 middle size: 变成 3 列;
+子元素 1:
+md:col-span-2 md: 占两列;
 
-子元素2:
+子元素 2:
 hidden md:col-span-1 md:inline-grid
 
-#### Image为什么不能用在stories里面, pravatar的图;
-会报错, 只能用img标签;
+#### Image 为什么不能用在 stories 里面, pravatar 的图;
 
+会报错, 只能用 img 标签;
 
 ## 登录模块
+
 1. next-auth
 2. @clerk/nextjs
+
+## fixed 用法
+
+当使用 fixed 时，元素将从文档流中脱离，不会影响其他元素的布局，并且会保持在屏幕上的固定位置，即使页面滚动也不会改变其位置。
+
+1. sidebar 使用 fixed 后，body 内容会显示在左侧了；
+
+## max-w-screen-xl
+
+可以设置页面的最大宽带为 1280px
+
+## bg-clip-text text-transparent
+
+#### bg-clip-text
+
+`bg-clip` 属性用于定义背景的绘制区域，而 text 值表示背景只会填充到文本的前景区域，即文本字符所占据的空间，文本之外的区域不会显示背景。
+
+#### text-transparent
+
+它的作用是将文本颜色设置为透明，这样当结合 bg-clip-text 使用时，就可以让背景透过透明的文本显示出来，从而实现文本填充背景的效果。
+
+## justify-end 不能放到最后
+
+父元素要添加 w-full 类，并添加 flex 布局
