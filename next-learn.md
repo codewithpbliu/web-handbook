@@ -30,17 +30,17 @@ Hook 是特殊的函数，只在 React 渲染时有效
 `一个 state 变量的值永远不会在一次渲染的内部发生变化`， 即使其事件处理函数的代码是异步的。
 
 ```js
-console.log(count); // 0
-setCount(count + 1); // 请求用 1 重新渲染
-console.log(count); // 仍然是 0！
+console.log(count) // 0
+setCount(count + 1) // 请求用 1 重新渲染
+console.log(count) // 仍然是 0！
 ```
 
 设置状态会请求一个新的重新渲染，但不会在已运行的代码中更改它.
 
 ```js
-console.log(count); // 0
-setCount((count) => count + 1); // 请求用 1 重新渲染
-console.log(count); // 仍然是 0！
+console.log(count) // 0
+setCount((count) => count + 1) // 请求用 1 重新渲染
+console.log(count) // 仍然是 0！
 ```
 
 设置状态时传递一个 _更新器函数_ 来解决这个问题
@@ -91,6 +91,7 @@ Effect 允许你在渲染结束后执行一些代码
 
 1. localStroage
 2. reduxe
+3. zustand
 
 ## 静态、动态渲染
 
@@ -122,28 +123,28 @@ e.preventDefault 解决
 ## sidebar flex-1 不能放到最下面 && icon color 不能显示
 
 ```ts
-<div className="mt-8 space-y-1 px-3 flex-1">
+;<div className='mt-8 space-y-1 px-3 flex-1'>
   {SidebarTools.map((item) => (
     <Link
       key={item.name}
       href={item.href}
       className={cn(
-        "flex p-3 rounded-lg text-sm hover:bg-white/10 hover:text-white items-center w-full font-medium transition",
-        pathname === item.href ? "bg-white/10 text-white" : "text-zinc-400"
+        'flex p-3 rounded-lg text-sm hover:bg-white/10 hover:text-white items-center w-full font-medium transition',
+        pathname === item.href ? 'bg-white/10 text-white' : 'text-zinc-400'
       )}
     >
-      <div className="flex gap-x-3">
-        <item.icon className={cn("h-5 w-5", item.color)} />
+      <div className='flex gap-x-3'>
+        <item.icon className={cn('h-5 w-5', item.color)} />
         {item.name}
       </div>
     </Link>
   ))}
-</div>;
+</div>
 
 {
   /* pro */
 }
-<div className="px-6">isPro</div>;
+;<div className='px-6'>isPro</div>
 ```
 
 1. 需要在父元素里面添加 h-full，即可以修复`isPro`不在下面问题；
@@ -165,3 +166,189 @@ const SidebarTools = [
    1. FormItem
       1. FormControl
          1. Input
+
+## Button 组件的 Menu 不能调整大小
+
+1. Button 里面添加 asChild;
+2. 使用 !h-8，使用！强制覆盖样式；
+
+## 添加 asChild 后，button 按钮变小
+
+## prismaClient 新的用法
+
+PrismaClient 是 Prisma 的核心类，用于与数据库进行交互。以下是 PrismaClient 的用法：
+prisma 从 6 开始后，需要使用新的方法来创建 prismaclient 实例：
+
+```js
+import { PrismaClient } from '@prisma/client'
+```
+
+schema.prisma
+
+```bash
+generator client {
+  provider = "prisma-client-js"
+  output = "../lib/generated/prisma-client"
+}
+```
+
+/lib/db.ts
+
+```js
+import { PrismaClient } from '@/lib/generated/prisma-client'
+```
+
+## node.js Promise 用法
+
+```js
+const prom = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const rad = Math.random()
+
+    rad > 0.5 ? resolve('success') : reject('failed')
+  }, 1000)
+})
+
+prom.then(
+  (data) => {
+    console.log('succ ', data)
+  },
+  (err) => {
+    console.error('Err ', err)
+  }
+)
+```
+
+Promise 是一个对象，它可以获取异步操作的消息。是异步编程的一种方案
+
+Promise 两个参数
+
+1. resolve: 执行成功时候的方法；
+2. reject： 执行失败的方法；
+
+Promise 三个状态
+
+pending： 初始等待
+
+fullfiled： 成功，执行 resolve 函数；
+
+rejected： 失败，执行 reject 函数；
+
+调用
+promise.then(resolve, reject)
+OR
+promise.then(resolve).catch(reject)
+
+promise.finally() 异步任务成功与否，都执行
+
+#### 参数是一个 Promise 数组
+
+Promise.all([]) 全部成功提交
+
+Promise.race([]) 谁先出结果用哪个；
+
+## Zod 用法
+
+Zod 是一个以 TypeScript 为首的模式声明和验证库 ，弥补了 TypeScript 无法在`运行时进行校验的问题`
+
+Zod 既可以用在服务端也可以运行在客户端
+
+Zod 经常被用于校验未知的 API 返回内容
+
+Zod 是一个强大的库，特别适合用于类型安全的验证和数据解析。它的 API 非常直观且功能强大，可以用于表单验证、API 响应解析、数据清洗等多种场景
+
+ChatGPT 用法很详细；
+
+## aria-disabled 属性
+
+辅助技术互联网应用）属性，用于向屏幕阅读器等辅助技术表明某个元素是禁用的，并且无法与用户交互
+
+## nextjs 什么是 hook、provider、modal
+
+#### Hook
+
+本质上是内置在 React 中的特殊函数，它可以允许我们连接到 React 的一些内部机制，换句话说，Hooks 是一些公开内部响应功能的 API
+
+Hook 是 React 16.8 引入的一个功能，使得你能够在函数组件中使用状态（useState）、生命周期方法（useEffect）以及其他功能，而不需要使用类组件。
+
+定义通常使用 use 开头
+
+#### Provider
+
+Provider 是一种 React 组件，用于将上下文数据传递给子组件（类似 layout 组件）。通过上下文，你可以避免“层层传递”props 的困扰，而直接在组件树的较高层级定义`全局状态或配置`，并让下层的组件直接访问这些值。
+
+使用场景：
+
+- 共享全局状态：如认证状态、主题颜色、语言设置等。
+
+- 通过上下文将值传递给组件树中的多个组件，而无需在每一层都通过 props 传递。
+
+#### Modal
+
+Modal 是一种弹出层，通常用于展示重要信息或提供额外的交互。它通常在当前页面上层显示，且不会跳转到其他页面。Modal 组件可以用于显示表单、确认对话框、图片、通知等内容。
+
+## zustand 状态管理工具
+
+zustand 是一个精简、快速、可扩展的状态管理器，特别契合 react hook 下开发。使用上非常简单，在一些特殊场景下也能优雅适配。是我目前使用过之后最喜欢的一个状态管理器
+
+在 Zustand 中，create 是一个核心函数，用于创建你的 Zustand store。它接收一个状态创建函数作为参数，并返回一个 store API，你可以通过这个 API 来访问和修改 store 的状态。
+
+[he](https://juejin.cn/post/7203262276572823609)
+
+## SPA MCP
+
+### spa single page application
+
+### mcp model context protocol
+
+## DO NOT COMMIT
+
+This directory is auto-generated from `@clerk/nextjs` because you are running in Keyless mode. Avoid committing the `.clerk/` directory as it includes the secret key of the unclaimed instance.
+
+---
+
+## main Layout 不显示
+
+uploadthing 使用的 `import "@uploadthing/react/styles.css"` 问题，修改 tailwind.config.ts 使用 withUt 一样出错误
+
+## invite-modal 获取不到 useModal 的 server；
+
+```ts
+const { type, onOpen, isOpen, onClose, data } = useModal()
+const server = { data }
+```
+
+> `const server = { data }` 错误，正常应该为`const { server } = data`
+
+### Modal 变量的原理
+
+## useOrigin 的 hook
+
+hook 的本质就是全局方法?
+
+## navigator.clipboard 用法
+
+`navigator.clipboard.writeText(inviteUrl)`
+
+> 使用在非 HTTPS 环境不能使用，本地调试也需要使用 localhost 或者 127.0.0.1 才行，不能使用自定义的主机名 Host
+
+## query-string 用法
+
+```ts
+const url = qs.stringifyUrl({
+  url: `/api/members/${memberId}`,
+  query: {
+    serverId: server?.id,
+  },
+})
+
+const response = await axios.patch(url, { role })
+```
+
+### 对应 route.ts 用法
+
+- const {allParams} = new URL(req.url); const serverId = allParams.get('serverId') 获取的数据是 url 里面 query 的东西，相当于参数；
+
+- const { role } = await req.json() 获取的数据是 body 里面的数据，url 外的第二个{role}数据
+
+用法也是有不小区别
